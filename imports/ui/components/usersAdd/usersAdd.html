@@ -1,0 +1,53 @@
+<div class="col-md-12">
+  <div ng-if="usersAdd.user.roles[0] == 'admin'">
+  <h3>Добавить нового сотрудника</h3>
+<form name="addUser">
+<div class="form-group">
+  <label>
+     E-mail:
+     <input type="email" ng-model="usersAdd.newuser.email" class="form-control" required />
+  </label>
+  
+  <label>
+    ФИО:
+    <input type="text" ng-model="usersAdd.newuser.profile.fio" class="form-control" required/>
+  </label>
+</div>
+  
+<div class="form-group">
+<label>
+    Пароль:
+    <input type="text" ng-model="usersAdd.newuser.password" class="form-control" required/>
+  </label>
+  <label>
+    Роль:
+    <select ng-model="usersAdd.newuser.roles" class="form-control" required>
+      <option value="user">Пользователь</option>
+      <option value="admin">Администратор</option>
+      <option value="unactive">Неактивный</option>
+    </select>
+  </label>
+</div>
+<div class="form-group">
+            <label>Аватар пользователя</label>
+            <input
+                uploadcare-widget
+                ng-model="usersAdd.newuser.profile.avatar"
+                data-public-key="16a6f6fdf1509c662ffd"
+                data-tabs="file url"
+                data-images-only="true"
+                data-preview-step="false"
+                data-clearable="true"
+                data-multiple="false"
+                data-crop="300:300"
+                on-upload-complete="checkList.onUCUploadComplete(info)"
+                on-widget-ready="checkList.onUCWidgetReady(widget)"
+               />
+          </div>
+  <div class="form-group">
+    <button class="btn btn-success" ng-disabled="!addUser.$valid" ng-click="usersAdd.submit()">Добавить</button>
+  </div>
+</form>
+</div>
+</div>
+

@@ -1,0 +1,35 @@
+<div class="col-md-12">
+
+	<div ng-if="checkList.user.roles[0] != 'admin'">
+		<uib-tabset active="checkList.activeTab" type="pills">
+		<uib-tab ng-repeat="check in checkList.shop.checklists[checkList.selected_report.index].questions" index="$index" heading="{{$index+1}}" classes="{{checkList.checkitem[$index].check == 1 ? 'success' : ''}} {{checkList.checkitem[$index].check == 0 ? 'warning' : ''}}">
+		<h4>{{$index+1}}. {{check.title}} 
+			<button popover-placement="bottom" popover-trigger="mouseenter" uib-popover="{{check.description}}" popover-title="Инструкция" type="button" class="btn btn-default btn-sm">?</button>
+		</h4>
+		<div class="radio">
+			<label>
+				<input type="radio" name="check{{$index}}" id="check{{$index}}" value="1" ng-model="checkList.checkitem[$index].check">
+				ДА
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" name="check{{$index}}" id="check{{$index}}" value="0" ng-model="checkList.checkitem[$index].check">
+				НЕТ
+			</label>
+		</div>
+		<label ng-show="checkList.checkitem[$index].check == 0">
+			<textarea class="form-control" ng-model="checkList.checkitem[$index].reason" rows="3" cols="60" ng-required="checkList.checkitem[$index].check == 0"></textarea> {{checkList.checkitem[$index].reason.length}}
+		</label>
+		<hr>
+		<button class="btn btn-default" ng-disabled="!checkList.checkitem[$index] || checkList.isDisabled($index)" ng-click="checkList.activeTab = checkList.isComplete() ? 100 : $index+1;">Далее</button>
+	</uib-tab>
+	<uib-tab index="100" heading="Завершить" ng-show="checkList.isComplete()">
+	<h4>Вы подтверждаете достоверность отчета?</h4>
+	<hr>
+	<button class="btn btn-success" ng-disabled="!checkList.isComplete()" ng-click="checkList.report()">Подтверждаю</button>
+	</uib-tab>
+	</uib-tabset>
+</div>
+</div>
+<check-edit ng-if="checkList.user.roles[0] == 'admin'" shop="checkList.shop"></check-edit>

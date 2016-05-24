@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default navbar-static-top">  
+	<div class="container-fluid"> 
+		<div class="navbar-header"> 
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> 
+		<a class="navbar-brand" href="#">ЦветОптМаркет</a> 
+		</div>  
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8"> 
+			<ul class="nav navbar-nav"> 
+				<li ui-sref-active="active" ng-class="{selected : navigation.selected_user}">
+					<a ui-sref="users">
+					<span ng-show="!navigation.selected_user">1. Выбрать сотрудника</span>
+					<span ng-show="navigation.selected_user">1. {{navigation.selected_user.profile.fio}}</span>
+					</a>
+				</li>
+				<li ui-sref-active="active" ng-class="{selected : navigation.selected_shop}">
+					<a ui-sref="shops">
+					<span ng-show="!navigation.selected_shop">2. Выбрать магазин</span>
+					<span ng-show="navigation.selected_shop">2. {{navigation.selected_shop.name}}</span>
+					</a>
+				</li>
+				<li ui-sref-active="active" ng-show="navigation.selected_shop && navigation.selected_user">
+					<a ui-sref="checkList({shopId : navigation.selected_shop._id})">3. Написать отчет</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav pull-right">
+				<auth-form></auth-form>
+			</ul>
+		</div>
+	</div>
+</nav>

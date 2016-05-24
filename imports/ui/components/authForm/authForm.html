@@ -1,0 +1,17 @@
+<div ng-show="!authForm.user">
+	<form name="loginForm" class="form-inline login-form">
+		<label>
+			<input type="text" ng-model="authForm.email" class="form-control">
+		</label>
+		<label>
+			<input type="password" ng-model="authForm.password" class="form-control">
+		</label>
+		<button type="button" class="btn btn-success" ng-click="authForm.login()">Войти</button>
+	</form>
+</div>
+
+<div ng-show="authForm.user" class="login-form">
+	<span ng-bind="authForm.user.profile.fio"></span> &nbsp; 
+	<button class="btn btn-default" ng-click="authForm.change()">Изменить пароль</button>
+	<button class="btn btn-default" ng-click="authForm.logout()">Выйти</button>
+</div>

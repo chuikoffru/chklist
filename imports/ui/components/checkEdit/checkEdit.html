@@ -1,0 +1,139 @@
+<div class="col-md-12">
+	<div class="well well-lg">
+		<div>
+			<h3>Редактировать данные магазина</h3>
+			<form name="editShop">
+				<div class="form-group">
+					<label>
+						Расположение магазина
+					</label>
+					<input type="text" ng-model="checkEdit.shop.name" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Точный адрес</label>
+					<input type="text" ng-model="checkEdit.shop.address" class="form-control" />
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="row"> 
+
+		<div class="col-md-12">
+			
+		</div>
+
+		<div class="col-md-4">
+		 	<h3>Чек-листы:</h3>
+			<div class="list-group">
+			  <a href="#" class="list-group-item" ng-class="{active : checkEdit.selected_report.index == $index}" ng-repeat="check in checkEdit.shop.checklists" ng-click="checkEdit.selectCheck($index, check)">
+			    {{check.name}}
+			  </a>
+			</div>
+
+			<form name="addCheck" class="row">
+
+				<div class="col-md-12">
+					<h3>Добавить чек-лист</h3>
+				</div>
+
+				<div class="form-group col-md-12">
+					<label>Название чек-листа</label>
+					<input class="form-control" type="text" min="3" ng-model="checkEdit.newcheck.name" required />
+				</div>
+
+				<div class="form-group col-md-6">
+					<label>Время начала</label>
+					<input class="form-control" type="text" placeholder="00:00" ng-model="checkEdit.newcheck.start" required />
+				</div>
+
+				<div class="form-group col-md-6">
+					<label>Время конца</label>
+					<input class="form-control" type="text" placeholder="00:00" ng-model="checkEdit.newcheck.end" required />
+				</div>
+
+				<div class="form-group col-md-12">
+					<button type="button" class="btn btn-primary btn-block" ng-disabled="!addCheck.$valid" ng-click="checkEdit.addCheck()">Добавить</button>
+				</div>
+				
+			</form>
+
+		</div>
+
+		<div class="col-md-8">
+			<h3>Вопросы:</h3>
+			<ul class="list-unstyled">
+					<li ng-repeat="check in checkEdit.report.questions | orderBy : -check.position">
+					<div class="row">
+						<div class="col-md-8">
+							{{check.position}}. {{check.title}} 
+						</div>
+						<div class="col-md-4">
+							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, -1)">&uarr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, 1)">&darr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.removeQuestion(check)">X</button> 
+						</div>
+					</div>
+					</li>
+				</ul>
+		  <!-- <uib-tabset active="checkEdit.activeTab" type="pills" ng-show="checkEdit.shop.checklists.length > 0">
+		    <uib-tab index="$index" ng-repeat="check in checkEdit.shop.checklists" heading="{{check.name}}" select="checkEdit.selectCheck($index, check)">
+		    	<br>
+		      	<ul class="list-unstyled">
+					<li ng-repeat="check in checkEdit.shop.checklists[$index].questions | orderBy : -check.position">
+					<div class="row">
+						<div class="col-md-8">
+							{{check.position}}. {{check.title}} 
+						</div>
+						<div class="col-md-4">
+							<button class="btn btn-default" ng-click="checkEdit.setUp(check)">&uarr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.setDown(check)">&darr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.removeQuestion(check)">X</button> 
+						</div>
+					</div>
+					</li>
+				</ul>
+		    </uib-tab>
+		  </uib-tabset> -->
+			<div ng-show="checkEdit.shop.checklists.length > 0">
+
+				<h3>Добавить вопрос</h3> 
+				<form name="addVote">
+					<div class="form-group">
+						<label>Вопрос</label>
+						<input type="text" ng-model="checkEdit.question.title" class="form-control" required min="5" />
+					</div>
+					<div class="form-group">
+						<label>Инструкция</label>
+						<textarea ng-model="checkEdit.question.description" class="form-control" rows="3" cols="50"></textarea>
+						<label>Позиция</label>
+						<input type="number" min="0" max="100" placeholder="1" ng-model="checkEdit.question.position" class="form-control" required />
+					</div>
+					<!-- <div class="form-group">
+						<label>Прикрепить изображения</label>
+						<input
+						uploadcare-widget
+						ng-model="checkEdit.question.images"
+						data-public-key="16a6f6fdf1509c662ffd"
+						data-tabs="file url"
+						data-images-only="true"
+						data-preview-step="false"
+						data-clearable="true"
+						data-multiple="true"
+						data-crop="800:600"
+						on-upload-complete="checkEdit.onUCUploadComplete(info)"
+						on-widget-ready="checkEdit.onUCWidgetReady(widget)"
+						/>
+					</div> -->
+					<div class="form-group">
+						<button ng-click="checkEdit.addQuestion()" class="btn btn-success" ng-disabled="!addVote.$valid">Добавить вопрос</button>
+					</div>
+
+				</form>
+			</div>
+			
+		</div>
+
+	</div>
+
+</div>

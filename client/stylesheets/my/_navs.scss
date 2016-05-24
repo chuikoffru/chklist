@@ -1,0 +1,50 @@
+.oclock {
+	font-size: 14px;
+}
+.alertme {
+	color: red;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+	background-color: #f2f2f2;
+	color: #999;
+}
+
+.nav-pills > li.success > a, .nav-pills > li.success > a:hover, .nav-pills > li.success > a:focus {
+	background-color: #5cb85c;
+	color: #fff;
+}
+
+.nav-pills > li.warning > a, .nav-pills > li.warning > a:hover, .nav-pills > li.warning > a:focus {
+	background-color: #d58512;
+	color: #fff;
+}
+
+.list-group-item-heading {
+	font-size: 16px;
+}
+
+a.list-group-item-warning.active, 
+a.list-group-item-warning.active:hover, 
+a.list-group-item-warning.active:focus, 
+button.list-group-item-warning.active, 
+button.list-group-item-warning.active:hover, 
+button.list-group-item-warning.active:focus,
+a.list-group-item-success.active, 
+a.list-group-item-success.active:hover,
+a.list-group-item-success:hover, 
+a.list-group-item-success:focus, 
+button.list-group-item-success:hover, 
+button.list-group-item-success:focus{
+	background-color: #337ab7;
+	border-color: #337ab7;
+	color: #fff;
+}
+
+.btn-clearfix {
+	display: block;
+}
+
+.btn-clearfix-width {
+	width: 94%;
+}
