@@ -6,6 +6,7 @@ import angularSanitize from 'angular-sanitize';
 import { Meteor } from 'meteor/meteor';
 import { Shops } from '../../../api/shops';
 import { Reports } from '../../../api/reports';
+import { ChList } from '../../../api/checklists';
 import { Session } from 'meteor/session';
 import { name as CheckEdit } from '../checkEdit/checkEdit';
 
@@ -30,33 +31,36 @@ class CheckList {
 
     this.subscribe('shops');
     this.subscribe('reports');
+    this.subscribe('checklists');
 
     this.selected_user = Session.get('selected_user');
     this.selected_shop = Session.get('selected_shop');
     this.selected_report = Session.get('selected_report') || 0;
 
     this.helpers({
-      shop: () => Shops.findOne({_id : this.getReactively('shopId')}), 
+      shop: () => Shops.findOne({_id : this.getReactively('shopId')}),
+      checklists: () => ChList.findOne({shop_id : this.shopId, name : this.selected_report.name}),
       user: () => Meteor.user()
     });
   }
 
   isDisabled(index) {
-    if(this.checkitem[index].check == 0) {
-      if(this.checkitem[index].reason.length > 6) {
-        return false;
-      } else {
-        return true;
+      if(this.checkitem[index].check == 0) {
+
+        if(this.checkitem[index].reason.length > 6) {
+          return false;
+        } else {
+          return true;
+        }
       }
-      
-    }
   }
 
   isComplete() {
-    if(this.shop) {
-      let count_questions = this.shop.checklists[this.selected_report.index].questions.length;
+    if(this.checklists) {
+
+      let count_questions = this.checklists.questions.length;
       let count_answers = this.checkitem.length;
-      //console.log(count_answers + " / " + count_questions);
+      console.log(count_answers + " / " + count_questions);
       return count_answers === count_questions ? true : false;
     }
   }
@@ -65,7 +69,7 @@ class CheckList {
     //console.log(this.checkitem);
     let data = {
       shop : _.pick(this.shop, '_id', 'name', 'address'),
-      report : this.selected_report.index,
+      report : this.selected_report.name,
       user : this.selected_user,
       start : this.startDate,
       end : new Date().getTime(),

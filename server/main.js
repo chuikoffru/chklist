@@ -5,6 +5,7 @@ import { Shops } from '../imports/api/shops';
 import '../imports/api/reports';
 import '../imports/api/shops';
 import '../imports/api/users';
+import '../imports/api/checklists';
 
 Meteor.startup(() => {
 
@@ -27,77 +28,21 @@ Meteor.startup(() => {
     const shops = [{
       'name': 'Камчадалочка',
       'address': 'ул. Владивостокская, 47',
-      'checklists' : [ 
-        {
-            "name" : "Утренний отчет",
-            "start" : "06:00",
-            "end" : "20:00",
-            "questions" : []
-        }, 
-        {
-            "name" : "Вечерний чек лист",
-            "questions" : [],
-            "start" : "20:00",
-            "end" : "23:00"
-        }
-    ],
       "owner" : userId,
       'active' : 1,
     }, {
       'name': 'ТЦ Евразия',
       'address': 'ул. Кавказская, 49',
-      'checklists' : [
-        {
-            "name" : "Утренний отчет",
-            "start" : "06:00",
-            "end" : "20:00",
-            "questions" : []
-        }, 
-        {
-            "name" : "Вечерний чек лист",
-            "questions" : [],
-            "start" : "20:00",
-            "end" : "23:00"
-        }
-    ],
       "owner" : userId,
       'active' : 1
     }, {
       'name': 'ТЦ Вега',
       'address': 'ул. Пограничная, 13',
-      'checklists' : [
-        {
-            "name" : "Утренний отчет",
-            "start" : "06:00",
-            "end" : "20:00",
-            "questions" : []
-        }, 
-        {
-            "name" : "Вечерний чек лист",
-            "questions" : [],
-            "start" : "20:00",
-            "end" : "23:00"
-        }
-    ],
       "owner" : userId,
       'active' : 1
     }, {
       'name': 'Елизово',
       'address': 'ул. Ленина, 21',
-      'checklists' : [ 
-        {
-            "name" : "Утренний отчет",
-            "start" : "06:00",
-            "end" : "20:00",
-            "questions" : []
-        }, 
-        {
-            "name" : "Вечерний чек лист",
-            "questions" : [],
-            "start" : "20:00",
-            "end" : "23:00"
-        }
-    ],
       "owner" : userId,
       'active' : 1
     }];

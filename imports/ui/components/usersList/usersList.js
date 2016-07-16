@@ -8,6 +8,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { Reports } from '../../../api/reports';
 import { Shops } from '../../../api/shops';
+import { ChList } from '../../../api/checklists';
 
 import './usersList.html';
  
@@ -21,6 +22,7 @@ class UsersList {
     this.subscribe('users');
     this.subscribe('reports');
     this.subscribe('shops');
+    this.subscribe('checklists');
 
     this.state = $state;
  
@@ -43,18 +45,21 @@ class UsersList {
     const shop = Shops.findOne({_id : report.shop._id});
 
     if(shop) {
-      const chk = shop.checklists[report.report];
-    
-      let start = moment(report.start).format('HH');
-      let end = moment(report.end).format('HH');
 
-      let start_hour = chk.start.split(':')[0];
-      let end_hour = chk.end.split(':')[0];
+      let chk = ChList.findOne({shop_id : report.shop._id, name : report.report});
 
-      if(start >= start_hour && end <= end_hour) {
-        return false;
-      } else {
-        return true;
+      if(chk) {
+        let start = moment(report.start).format('HH');
+        let end = moment(report.end).format('HH');
+
+        let start_hour = chk.start.split(':')[0];
+        let end_hour = chk.end.split(':')[0];
+
+        if(start >= start_hour && end <= end_hour) {
+          return false;
+        } else {
+          return true;
+        }
       }
     }
   }

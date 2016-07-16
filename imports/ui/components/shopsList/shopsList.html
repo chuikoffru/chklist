@@ -17,10 +17,15 @@
 <div class="col-md-6">
 	<div ng-show="shopsList.selected_shop">
 		<h3>Выберите чек-лист</h3>
-		<div class="list-group" ng-show="shopsList.reports.checklists.length > 0">
-		  <a ng-repeat="item in shopsList.reports.checklists" ng-click="shopsList.select_report($index, item)" ui-sref="checkList({ shopId: shopsList.selected_shop })" class="list-group-item" ng-class="{disabled : shopsList.checkInterval(item)}" ui-sref-disabled="shopsList.checkInterval(item)">
-		    {{item.name}} с {{item.start}} до {{item.end}}
-		  </a>
+		<div class="list-group row" ng-show="shopsList.reports.length > 0" ng-repeat="item in shopsList.reports">
+			<div class="col-md-11 col-xs-10 non-padding-right">
+				<a ng-click="shopsList.select_report($index, item)" ui-sref="checkList({ shopId: shopsList.selected_shop })" class="list-group-item" ng-class="{disabled : shopsList.checkInterval(item)}" ui-sref-disabled="shopsList.checkInterval(item)">
+					{{item.name}} с {{item.start}} до {{item.end}}
+				</a>
+			</div>
+			<div class="col-md-1 col-xs-2 non-padding-left">
+				<check-remove check="item" ng-if="shopsList.user.roles[0] == 'admin'"></check-remove>
+			</div>
 		</div>
 	</div>
 	<form name="addCheck" class="row" ng-if="shopsList.user.roles[0] == 'admin'" ng-show="shopsList.selected_shop">
@@ -57,6 +62,19 @@
 	</div>
 	<div class="modal-body">
 		Вы подтверждаете свое действие? Магазин <b>{{shop.name}}</b> не будет удален из базы данных, он станет неактивным, и не будет отображаться в списке.
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="ok()">Подтверждаю</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modalRemoveCheck.html">
+	<div class="modal-header">
+		<h3 class="modal-title">Деактивировать чеклист?</h3>
+	</div>
+	<div class="modal-body">
+		Вы подтверждаете свое действие? Чеклист <b>{{check.name}}</b> не будет удален из базы данных, он станет неактивным, и не будет отображаться в списке.
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="button" ng-click="ok()">Подтверждаю</button>

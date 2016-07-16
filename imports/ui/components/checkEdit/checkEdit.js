@@ -5,6 +5,7 @@ import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor';
 import { Shops } from '../../../api/shops';
 import { Reports } from '../../../api/reports';
+import { ChList } from '../../../api/checklists';
 import { Session } from 'meteor/session';
 
 import './checkEdit.html';
@@ -27,6 +28,7 @@ class CheckEdit {
 
     this.subscribe('shops');
     this.subscribe('reports');
+    this.subscribe('checklists');
 
     this.report = {};
 
@@ -34,19 +36,18 @@ class CheckEdit {
     this.selected_report = Session.get('selected_report');
 
     this.helpers({
+      checklists: () => ChList.find({shop_id : this.shopId}),
       shop: () => Shops.findOne({_id : this.shopId}),
       user: () => Meteor.user(),
-      reportdata: () => {
-        const data = Shops.findOne({_id : this.shopId});
-        if(data) {
-          this.report = data.checklists[this.getReactively('selected_report').index]; 
-        } 
-      }
+      questions: () => ChList.findOne({shop_id : this.shopId, name : this.getReactively('selected_report').name})
     });
   }
 
   addCheck() {
-    Shops.update({_id : this.shop._id}, {$push : {checklists : this.newcheck}});
+    this.newcheck.shop_id = this.shopId;
+    this.newcheck.questions = [];
+    this.newcheck.active = 1;
+    ChList.insert(this.newcheck);
     this.newcheck = {name : ""};
   }
 
@@ -55,19 +56,44 @@ class CheckEdit {
       this.selected_report = Session.get('selected_report');
   }
 
-  setPosition(item, position) {
-    Meteor.call('setPosition', this.shopId, item, position);
+  setPosition(check, position) {
+      Meteor.call('setPosition', this.shopId, check, position);
   }
 
   addQuestion() {
-    Meteor.call('addQuestion', this.selected_report, this.shop, this.question);
+
+    let checkId = ChList.findOne({
+      shop_id : this.shopId, 
+      name : this.selected_report.name
+    });
+
+    if(checkId) {
+      ChList.update(checkId._id, {
+        $push : {
+          questions : {
+            $each : [this.question],
+            $position: this.question.position
+          }
+        }
+      });
+    }
+
     this.question = {};
   }
 
-  removeQuestion(idx) {
-    //console.log(idx);
-    Meteor.call('removeQuestion', this.shop, idx);
-    //this.question = {};
+  removeQuestion(check) {
+    let checkId = ChList.findOne({
+      shop_id : this.shopId, 
+      name : this.selected_report.name
+    });
+
+    if(checkId) {
+      ChList.update(checkId._id, {
+        $pull : {
+          questions : {title : check.title}
+        }
+      });
+    }
   }
 
   onUCWidgetReady(data) {

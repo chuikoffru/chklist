@@ -5,8 +5,10 @@ import uiRouter from 'angular-ui-router';
 import './shopsList.html';
 import { Session } from 'meteor/session';
 import { Shops } from '../../../api/shops';
+import { ChList } from '../../../api/checklists';
 import { name as ShopsAdd } from '../shopsAdd/shopsAdd';
 import { name as ShopsRemove } from '../shopsRemove/shopsRemove';
+import { name as CheckRemove } from '../checkRemove/checkRemove';
  
 class ShopsList {
   constructor($scope, $reactive) {
@@ -15,6 +17,7 @@ class ShopsList {
     $reactive(this).attach($scope);
 
     this.subscribe('shops');
+    this.subscribe('checklists');
 
     this.selected_user = Session.get('selected_user');
     this.selected_shop = Session.get('selected_shop');
@@ -22,16 +25,20 @@ class ShopsList {
     this.helpers({
       shops: () => Shops.find({active : 1}),
       user: () => Meteor.user(),
-      reports: () => Shops.findOne({_id : this.getReactively('selected_shop')})
+      reports: () => ChList.find({shop_id : this.getReactively('selected_shop'), active : 1})
     });
   }
 
   addCheck() {
-    Shops.update({_id : this.selected_shop}, {$push : {checklists : this.newcheck}});
+    this.newcheck.shop_id = this.getReactively('selected_shop');
+    this.newcheck.questions = [];
+    this.newcheck.active = 1;
+    ChList.insert(this.newcheck);
     this.newcheck = {name : ""};
   }
 
   checkInterval(item) {
+
     let now = new Date();
     let hour = now.getHours();
     let minute = now.getMinutes();
@@ -40,12 +47,12 @@ class ShopsList {
     let start_minute = item.start.split(':')[1];
     let end_hour = item.end.split(':')[0];
     let end_minute = item.end.split(':')[1];
-
-    if(hour >= start_hour && hour <= end_hour) {
-      return false;
-    } else {
-      return true;
-    }
+    
+      if(hour >= start_hour && hour <= end_hour) {
+        return false;
+      } else {
+        return true;
+      }
 
     //console.log(item.start, item.end);
   }
@@ -68,7 +75,8 @@ export default angular.module(name, [
   angularMeteor,
   uiRouter,
   ShopsAdd,
-  ShopsRemove
+  ShopsRemove,
+  CheckRemove
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,

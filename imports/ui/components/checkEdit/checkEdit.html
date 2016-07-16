@@ -26,7 +26,7 @@
 		<div class="col-md-4">
 		 	<h3>Чек-листы:</h3>
 			<div class="list-group">
-			  <a href="#" class="list-group-item" ng-class="{active : checkEdit.selected_report.index == $index}" ng-repeat="check in checkEdit.shop.checklists" ng-click="checkEdit.selectCheck($index, check)">
+			  <a href="#" class="list-group-item" ng-class="{active : checkEdit.selected_report.index == $index}" ng-repeat="check in checkEdit.checklists" ng-click="checkEdit.selectCheck($index, check)">
 			    {{check.name}}
 			  </a>
 			</div>
@@ -63,14 +63,14 @@
 		<div class="col-md-8">
 			<h3>Вопросы:</h3>
 			<ul class="list-unstyled">
-					<li ng-repeat="check in checkEdit.report.questions | orderBy : -check.position">
+					<li ng-repeat="check in checkEdit.questions.questions | orderBy : -check.position">
 					<div class="row">
 						<div class="col-md-8">
 							{{check.position}}. {{check.title}} 
 						</div>
 						<div class="col-md-4">
-							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, -1)">&uarr;</button> 
-							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, 1)">&darr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, -1)" ng-disabled="$index == 0">&uarr;</button> 
+							<button class="btn btn-default" ng-click="checkEdit.setPosition(check, 1)" ng-disabled="$index == checkEdit.questions.questions.length - 1">&darr;</button> 
 							<button class="btn btn-default" ng-click="checkEdit.removeQuestion(check)">X</button> 
 						</div>
 					</div>
@@ -95,7 +95,7 @@
 				</ul>
 		    </uib-tab>
 		  </uib-tabset> -->
-			<div ng-show="checkEdit.shop.checklists.length > 0">
+			<div ng-show="checkEdit.checklists.length > 0">
 
 				<h3>Добавить вопрос</h3> 
 				<form name="addVote">

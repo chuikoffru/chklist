@@ -6,6 +6,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { Reports } from '../../../api/reports';
 import { Shops } from '../../../api/shops';
+import { ChList } from '../../../api/checklists';
 
 import './reportsList.html';
  
@@ -23,6 +24,7 @@ class ReportsList {
     };
 
     this.subscribe('users');
+    this.subscribe('checklists');
 
     this.subscribe('fullReports', () => [{
       limit: parseInt(this.perPage),

@@ -12,10 +12,10 @@
 	<uib-pager total-items="reportsList.reports.length" items-per-page="reportsList.perPage" ng-model="reportsList.currentPage" previous-text="Назад" next-text="Вперед"></uib-pager>
 </div>
 <div class="col-md-6">
-	<h3>{{reportsList.getShop(reportsList.oneReport.shop._id).checklists[reportsList.oneReport.report].name}}</h3>
+	<h3>{{reportsList.oneReport.report}}</h3>
 	<div class="list-group">
 	  <a ng-repeat="report in reportsList.oneReport.data" class="list-group-item list-group-item-{{report.check == 1 ? 'success' : 'warning'}}">
-	    <h4 class="list-group-item-heading">{{$index+1}}. {{reportsList.getShop(reportsList.oneReport.shop._id).checklists[reportsList.oneReport.report].questions[$index].title}}</h4>
+	    <h4 class="list-group-item-heading">{{$index+1}}. {{report.question}}</h4>
 	    <p class="list-group-item-text">
 	    	{{report.check == 1 ? 'ДА' : 'НЕТ,'}}
 	    	<span ng-show="report.check == 0">{{report.reason}}</span>
